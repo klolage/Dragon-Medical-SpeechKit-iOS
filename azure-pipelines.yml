@@ -32,9 +32,14 @@ steps:
     itemPattern: '**/**/*.dmg'
     targetPath: '$(Agent.TempDirectory)/sdk'
 
+- task: 7zExtract@1
+  inputs:
+    Archive: '$(Agent.TempDirectory)/sdk/**/**/.dmg'
+    Folder: '$(System.DefaultWorkingDirectory)/sdk'
+
 - script: |
     git config user.email "krishna.lolage@microsoft.com"
     git config user.name "klolage"
     git checkout -b release/v5.7.1
-    cd $(System.DefaultWorkingDirectory)/Dragon-Medical-SpeechKit-iOS
+    cd Dragon-Medical-SpeechKit-iOS
   displayName: 'Clone repo and create release branch'
