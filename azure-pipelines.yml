@@ -49,11 +49,12 @@ steps:
   inputs:
     SourceFolder: '$(Agent.TempDirectory)/extracted_sdk/DragonMedicalSpeechKit/DragonMedicalSpeechKit/'
     Contents: '**'
-    TargetFolder: '$(System.DefaultWorkingDirectory)/sdk'
+    TargetFolder: '$(System.DefaultWorkingDirectory)/sdk/DragonMedicalSpeechKit.xcframework/'
     CleanTargetFolder: true
     OverWrite: true
 
 - script: |
     git add sdk
     git status"
+    git commit -m "Uploaded SDK"
   displayName: 'Git Status'
