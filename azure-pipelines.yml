@@ -46,16 +46,24 @@ steps:
     cleanDestinationFolder: true
     overwriteExistingFiles: true
 
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Agent.TempDirectory)/extracted_sdk/DragonMedicalSpeechKit/DragonMedicalSpeechKit/DragonMedicalSpeechKit.xcframework/DragonMedicalSpeechKit.xcframework'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Agent.TempDirectory)/zipped_sdk/DragonMedicalSpeechKit.zip'
+    replaceExistingArchive: true
+    verbose: true
+
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(Agent.TempDirectory)/extracted_sdk/DragonMedicalSpeechKit/DragonMedicalSpeechKit/'
+    SourceFolder: '$(Agent.TempDirectory)/zipped_sdk/DragonMedicalSpeechKit.zip'
     Contents: '**'
-    TargetFolder: '$(System.DefaultWorkingDirectory)/sdk/DragonMedicalSpeechKit.xcframework/'
-    CleanTargetFolder: true
+    TargetFolder: '$(System.DefaultWorkingDirectory)/Sources/SDK'
+    CleanTargetFolder: false
     OverWrite: true
 
 - script: |
-    git add sdk
     git status"
     git commit -m "Uploaded SDK"
     git push
