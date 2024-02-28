@@ -29,7 +29,6 @@ steps:
     buildVersionToDownload: 'latest'
     allowPartiallySucceededBuilds: true
     artifactName: 'sdk'
-    itemPattern: 'sdk/**/*.dmg'
     targetPath: '$(Agent.TempDirectory)/sdk'
 
 - script: |
