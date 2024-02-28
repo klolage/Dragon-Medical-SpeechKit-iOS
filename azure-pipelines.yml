@@ -35,6 +35,7 @@ steps:
 - script: |
     git config user.email "krishna.lolage@microsoft.com"
     git config user.name "klolage"
+    git pull
     git checkout release/v5.7.1
   displayName: 'Checkout release branch'
 
