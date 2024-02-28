@@ -18,6 +18,9 @@ steps:
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
 
+- checkout: self
+  persistCredentials: true
+
 - task: DownloadPipelineArtifact@2
   inputs:
     buildType: 'specific'
@@ -27,14 +30,11 @@ steps:
     allowPartiallySucceededBuilds: true
     artifactName: 'sdk'
     itemPattern: '**/**/*.dmg'
-    targetPath: '$(Pipeline.Workspace)/sdk'
-
-- checkout: self
-  persistCredentials: true
+    targetPath: '$(Agent.TempDirectory)/sdk'
 
 - script: |
     git config user.email "krishna.lolage@microsoft.com"
     git config user.name "klolage"
     git checkout -b release/v5.7.1
-    cd Dragon-Medical-SpeechKit-iOS
+    cd $(System.DefaultWorkingDirectory)/Dragon-Medical-SpeechKit-iOS
   displayName: 'Clone repo and create release branch'
