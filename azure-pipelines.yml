@@ -41,13 +41,13 @@ steps:
 - task: ExtractFiles@1
   inputs:
     archiveFilePatterns: '$(Agent.TempDirectory)/sdk/**/*.dmg'
-    destinationFolder: '$(Agent.TempDirectory)/sdk'
+    destinationFolder: '$(Agent.TempDirectory)/extracted_sdk'
     cleanDestinationFolder: true
     overwriteExistingFiles: true
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(Agent.TempDirectory)/sdk/DragonMedicalSpeechKit/DragonMedicalSpeechKit/'
+    SourceFolder: '$(Agent.TempDirectory)/extracted_sdk/DragonMedicalSpeechKit/DragonMedicalSpeechKit/'
     Contents: '**'
     TargetFolder: '$(System.DefaultWorkingDirectory)/sdk'
     CleanTargetFolder: true
