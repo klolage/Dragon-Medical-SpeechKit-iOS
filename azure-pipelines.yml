@@ -40,7 +40,7 @@ steps:
 
 - task: ExtractFiles@1
   inputs:
-    archiveFilePatterns: '$(Agent.TempDirectory)/sdk/xcframework/*.dmg'
+    archiveFilePatterns: '$(Agent.TempDirectory)/sdk/sdk/xcframework/*.dmg'
     destinationFolder: '$(Agent.TempDirectory)/extracted_sdk'
     cleanDestinationFolder: true
     overwriteExistingFiles: true
@@ -53,6 +53,12 @@ steps:
     archiveFile: '$(Agent.TempDirectory)/zipped_sdk/DragonMedicalSpeechKit.zip'
     replaceExistingArchive: true
     verbose: true
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Agent.TempDirectory)/zipped_sdk/DragonMedicalSpeechKit.zip'
+    ArtifactName: 'zip_sdk'
+    publishLocation: 'Container'
 
 - task: CopyFiles@2
   inputs:
