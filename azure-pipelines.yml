@@ -31,6 +31,16 @@ steps:
     artifactName: 'sdk'
     targetPath: '$(Agent.TempDirectory)/sdk'
 
+- task: DownloadBuildArtifacts@1
+  inputs:
+    buildType: 'specific'
+    project: 'f787e026-7c19-4b78-92df-67dd5db79642'
+    pipeline: '208'
+    buildVersionToDownload: 'latest'
+    downloadType: 'specific'
+    itemPattern: 'sdk/sdk/xcframework'
+    downloadPath: '$(Agent.TempDirectory)/abc'
+
 - script: |
     git config user.email "krishna.lolage@microsoft.com"
     git config user.name "klolage"
