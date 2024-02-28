@@ -17,3 +17,14 @@ steps:
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
+
+- script: |
+    git config user.email "krishna.lolage@microsoft.com"
+    git config user.name "klolage"
+    git clone https://$(System.AccessToken)@github.com/klolage/Dragon-Medical-SpeechKit-iOS.git
+    cd Dragon-Medical-SpeechKit-iOS
+    git checkout master
+    git checkout -b release/v5.7.1
+    git commit -a -m 'new release branch created'
+    git push --set-upstream origin release/v5.7.1
+  displayName: 'Clone repo and create release branch'
