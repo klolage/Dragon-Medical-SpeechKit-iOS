@@ -57,4 +57,5 @@ steps:
     git add sdk
     git status"
     git commit -m "Uploaded SDK"
+    git push
   displayName: 'Git Status'
