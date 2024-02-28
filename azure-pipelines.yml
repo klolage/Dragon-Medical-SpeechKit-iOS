@@ -43,7 +43,7 @@ steps:
     archiveFilePatterns: '$(Agent.TempDirectory)/sdk/**/*.dmg'
     destinationFolder: '$(System.DefaultWorkingDirectory)/sdk2'
     cleanDestinationFolder: true
-    overwriteExistingFiles: false
+    overwriteExistingFiles: true
 
 - script: |
     git status"
