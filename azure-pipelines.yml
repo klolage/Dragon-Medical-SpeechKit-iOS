@@ -46,6 +46,6 @@ steps:
     overwriteExistingFiles: true
 
 - script: |
-    git add .
+    git add sdk/DragonMedicalSpeechKit/DragonMedicalSpeechKit/
     git status"
   displayName: 'Git Status'
