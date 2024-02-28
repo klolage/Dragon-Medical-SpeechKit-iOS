@@ -41,11 +41,19 @@ steps:
 - task: ExtractFiles@1
   inputs:
     archiveFilePatterns: '$(Agent.TempDirectory)/sdk/**/*.dmg'
-    destinationFolder: '$(System.DefaultWorkingDirectory)/sdk'
+    destinationFolder: '$(Agent.TempDirectory)/sdk'
     cleanDestinationFolder: true
     overwriteExistingFiles: true
 
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Agent.TempDirectory)/sdk/DragonMedicalSpeechKit/DragonMedicalSpeechKit/'
+    Contents: '**'
+    TargetFolder: '$(System.DefaultWorkingDirectory)/sdk'
+    CleanTargetFolder: true
+    OverWrite: true
+
 - script: |
-    git add sdk/DragonMedicalSpeechKit/DragonMedicalSpeechKit/
+    git add sdk
     git status"
   displayName: 'Git Status'
