@@ -40,7 +40,7 @@ steps:
 
 - task: ExtractFiles@1
   inputs:
-    archiveFilePatterns: '$(Agent.TempDirectory)/sdk/sdk/xcframework/*.dmg'
+    archiveFilePatterns: '$(Agent.TempDirectory)/sdk/xcframework/*.dmg'
     destinationFolder: '$(Agent.TempDirectory)/extracted_sdk'
     cleanDestinationFolder: true
     overwriteExistingFiles: true
