@@ -18,6 +18,16 @@ steps:
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
 
+- task: DownloadPipelineArtifact@2
+  inputs:
+    buildType: 'specific'
+    project: 'f787e026-7c19-4b78-92df-67dd5db79642'
+    definition: '208'
+    buildVersionToDownload: 'latest'
+    allowPartiallySucceededBuilds: true
+    artifactName: 'sdk/xcframework'
+    targetPath: '$(Pipeline.Workspace)/sdk'
+
 - checkout: self
   persistCredentials: true
 
@@ -25,4 +35,5 @@ steps:
     git config user.email "krishna.lolage@microsoft.com"
     git config user.name "klolage"
     git checkout -b release/v5.7.1
+    cd Dragon-Medical-SpeechKit-iOS
   displayName: 'Clone repo and create release branch'
