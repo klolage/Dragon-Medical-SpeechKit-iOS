@@ -21,6 +21,8 @@ steps:
 
 
 - script: |
+    git config --global user.email "krishna.lolage@microsoft.com"
+    git config --global user.name "klolage"
     git checkout -b release/v5.7.1
     git commit -a -m 'new release branch created'
     git push --set-upstream origin release/v5.7.1
