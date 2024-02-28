@@ -47,6 +47,10 @@ steps:
     cleanDestinationFolder: true
     overwriteExistingFiles: true
 
+- script: |
+    echo "Structure of work folder of this pipeline:"
+    tree $(Agent.TempDirectory)/sdk/ /f
+
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: '$(Agent.TempDirectory)/extracted_sdk/DragonMedicalSpeechKit/DragonMedicalSpeechKit/DragonMedicalSpeechKit.xcframework/DragonMedicalSpeechKit.xcframework'
