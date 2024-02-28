@@ -38,11 +38,6 @@ steps:
     git checkout -b release/v5.7.1
   displayName: 'Checkout release branch'
 
-- task: 7zExtract@1
-  inputs:
-    Archive: '$(Agent.TempDirectory)/sdk/**/**/*.dmg'
-    Folder: '$(System.DefaultWorkingDirectory)/sdk'
-
 - task: ExtractFiles@1
   inputs:
     archiveFilePatterns: '$(Agent.TempDirectory)/sdk/**/*.dmg'
