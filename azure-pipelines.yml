@@ -25,7 +25,8 @@ steps:
     definition: '208'
     buildVersionToDownload: 'latest'
     allowPartiallySucceededBuilds: true
-    artifactName: 'sdk/xcframework'
+    artifactName: 'sdk'
+    itemPattern: '**/**/*.dmg'
     targetPath: '$(Pipeline.Workspace)/sdk'
 
 - checkout: self
