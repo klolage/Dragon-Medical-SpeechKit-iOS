@@ -63,6 +63,19 @@ steps:
     CleanTargetFolder: false
     OverWrite: true
 
+- task: CmdLine@2
+  inputs:
+    script: |
+      cd $(Agent.TempDirectory)/extracted_sdk/DragonMedicalSpeechKit/DragonMedicalSpeechKit/DragonMedicalSpeechKit.xcframework/DragonMedicalSpeechKit.bundle
+      del "DragonMedicalSpeechKit" "Info.plist"
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Agent.TempDirectory)/extracted_sdk/DragonMedicalSpeechKit/DragonMedicalSpeechKit/DragonMedicalSpeechKit.xcframework/DragonMedicalSpeechKit.bundle'
+    Contents: '**'
+    TargetFolder: '$(System.DefaultWorkingDirectory)/Sources/SDK/Bundle/'
+    CleanTargetFolder: false
+    OverWrite: true
+
 - script: |
     git status"
     git add Sources/SDK/DragonMedicalSpeechKit.zip
