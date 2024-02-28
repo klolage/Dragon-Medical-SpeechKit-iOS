@@ -76,7 +76,8 @@ steps:
     OverWrite: true
 
 - script: |
-    git status"
+    git status
+    git pull
     git add Sources/SDK/DragonMedicalSpeechKit.zip
     git add Sources/SDK/Bundle/
     git commit -m "Uploaded SDK"
