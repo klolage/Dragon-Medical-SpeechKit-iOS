@@ -65,6 +65,7 @@ steps:
 
 - script: |
     git status"
+    git add Sources/SDK/DragonMedicalSpeechKit.zip
     git commit -m "Uploaded SDK"
     git push
   displayName: 'Git Status'
