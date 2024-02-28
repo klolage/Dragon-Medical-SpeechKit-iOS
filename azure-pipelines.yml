@@ -57,7 +57,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(Agent.TempDirectory)/zipped_sdk/DragonMedicalSpeechKit.zip'
+    SourceFolder: '$(Agent.TempDirectory)/zipped_sdk/'
     Contents: '**'
     TargetFolder: '$(System.DefaultWorkingDirectory)/Sources/SDK'
     CleanTargetFolder: false
