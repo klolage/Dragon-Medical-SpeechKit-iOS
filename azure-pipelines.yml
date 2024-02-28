@@ -41,10 +41,11 @@ steps:
 - task: ExtractFiles@1
   inputs:
     archiveFilePatterns: '$(Agent.TempDirectory)/sdk/**/*.dmg'
-    destinationFolder: '$(System.DefaultWorkingDirectory)/sdk2'
+    destinationFolder: '$(System.DefaultWorkingDirectory)/sdk'
     cleanDestinationFolder: true
     overwriteExistingFiles: true
 
 - script: |
+    git add .
     git status"
   displayName: 'Git Status'
