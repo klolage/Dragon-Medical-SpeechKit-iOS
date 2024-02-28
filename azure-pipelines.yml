@@ -28,7 +28,7 @@ steps:
     definition: '208'
     buildVersionToDownload: 'latest'
     allowPartiallySucceededBuilds: true
-    artifactName: 'sdk/sdk'
+    artifactName: 'sdk'
     itemPattern: '**/**/*.dmg'
     targetPath: '$(Agent.TempDirectory)/sdk'
 
@@ -41,7 +41,7 @@ steps:
 
 - task: ExtractFiles@1
   inputs:
-    archiveFilePatterns: '$(Agent.TempDirectory)/sdk/**/*.dmg'
+    archiveFilePatterns: '$(Agent.TempDirectory)/sdk/sdk/xcframework/*.dmg'
     destinationFolder: '$(Agent.TempDirectory)/extracted_sdk'
     cleanDestinationFolder: true
     overwriteExistingFiles: true
