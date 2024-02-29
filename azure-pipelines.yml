@@ -24,15 +24,14 @@ steps:
 - task: DownloadPipelineArtifact@2
   inputs:
     buildType: 'specific'
-    project: 'f787e026-7c19-4b78-92df-67dd5db79642'
-    definition: '208'
-    buildVersionToDownload: 'latest'
-    allowPartiallySucceededBuilds: true
+    project: 'Danube'
+    buildVersionToDownload: 'specific'
+    pipelineId: '640902'
     artifactName: 'sdk'
     itemPattern: |
       **/sdk/xcframework/Nuance_DragonMedicalSpeechKit_iOS_Edition_*.dmg
       !**/sdk/xcframework/Nuance_DragonMedicalSpeechKit_iOS_Edition_M1*.dmg
-    targetPath: '$(Agent.TempDirectory)/sdk'
+    targetPath: '$(Agent.TempDirectory)/sdk''
 
 - script: |
     echo "Structure of work folder of this pipeline:"
