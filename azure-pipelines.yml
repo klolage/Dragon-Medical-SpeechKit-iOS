@@ -17,13 +17,13 @@ resources:
     # use a tag to have full change control
     ref: refs/heads/feature/spm_xcframework_code_sign_verification
 
-
 steps:
 - checkout: self
   persistCredentials: true
   displayName: 'Checkout repo'
 
 - script: |
+    cd $(System.DefaultWorkingDirectory)
     git pull
     git checkout release/v5.7.1
     git pull
