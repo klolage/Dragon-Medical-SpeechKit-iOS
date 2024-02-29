@@ -30,8 +30,12 @@ steps:
     allowPartiallySucceededBuilds: true
     artifactName: 'sdk'
     itemPattern: |
-      **/sdk/**
+      **/sdk/sdk/xcframework/Nuance_DragonMedicalSpeechKit_iOS_Edition_*.dmg/**
     targetPath: '$(Agent.TempDirectory)/sdk'
+
+- script: |
+    echo "Structure of work folder of this pipeline:"
+    tree $(Agent.TempDirectory)/sdk/ /f
 
 - script: |
     git config user.email "krishna.lolage@microsoft.com"
@@ -46,10 +50,6 @@ steps:
     destinationFolder: '$(Agent.TempDirectory)/extracted_sdk'
     cleanDestinationFolder: true
     overwriteExistingFiles: true
-
-- script: |
-    echo "Structure of work folder of this pipeline:"
-    tree $(Agent.TempDirectory)/sdk/ /f
 
 - task: ArchiveFiles@2
   inputs:
