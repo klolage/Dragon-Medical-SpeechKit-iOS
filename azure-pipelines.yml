@@ -10,8 +10,8 @@ pool:
   vmImage: windows-latest
 
 resources:
-  repositories:
-  - repository: iossdk_package
+ repositories:
+  - repository: stepTemplates
     type: git
     name: iossdk_package
     # use a tag to have full change control
