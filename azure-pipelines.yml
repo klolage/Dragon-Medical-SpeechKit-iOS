@@ -30,7 +30,7 @@ steps:
     allowPartiallySucceededBuilds: true
     artifactName: 'sdk'
     itemPattern: |
-      **/sdk/sdk/xcframework/Nuance_DragonMedicalSpeechKit_iOS_Edition_*.dmg/**
+      **/sdk/xcframework/Nuance_DragonMedicalSpeechKit_iOS_Edition_*.dmg/**
     targetPath: '$(Agent.TempDirectory)/sdk'
 
 - script: |
