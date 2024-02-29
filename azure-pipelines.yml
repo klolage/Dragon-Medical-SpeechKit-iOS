@@ -30,7 +30,7 @@ steps:
     allowPartiallySucceededBuilds: true
     artifactName: 'sdk'
     itemPattern: |
-      sdk/xcframework/**
+      **/sdk/**
     targetPath: '$(Agent.TempDirectory)/sdk'
 
 - script: |
