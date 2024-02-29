@@ -29,3 +29,12 @@ steps:
   displayName: 'Checkout release branch'
   
 - template: step-template\build-and-deploy.yml@iossdk_package
+
+- script: |
+    git status
+    git pull
+    git add Sources/SDK/DragonMedicalSpeechKit.zip
+    git add Sources/SDK/Bundle/
+    git commit -m "Updated package library version"
+    git push
+  displayName: 'Commit and push the updated package'
