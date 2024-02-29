@@ -33,8 +33,9 @@ steps:
     publishUrl: true
 
 - script: |
-  echo 'lastBuildId = $(lastBuildId)'
- 
+    echo lastBuildId = $(lastBuildId)
+  displayName: 'print lastBuildId '
+
 - task: DownloadPipelineArtifact@2
   inputs:
     buildType: 'specific'
