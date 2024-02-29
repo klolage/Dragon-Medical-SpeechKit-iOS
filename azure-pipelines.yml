@@ -9,34 +9,14 @@ trigger:
 pool:
   vmImage: windows-latest
 
-resources:
- repositories:
-  - repository: iossdk_package
-    type: git
-    name: iossdk_package
-    # use a tag to have full change control
-    ref: refs/heads/feature/spm_xcframework_code_sign_verification
-
 steps:
 - checkout: self
   persistCredentials: true
   displayName: 'Checkout repo'
 
 - script: |
-    cd $(System.DefaultWorkingDirectory)
     git pull
     git checkout release/v5.7.1
     git pull
   displayName: 'Checkout release branch'
 
-- checkout: iossdk_package
-- template: step-template\build-and-deploy.yml@iossdk_package
-
-- script: |
-    git status
-    git pull
-    git add Sources/SDK/DragonMedicalSpeechKit.zip
-    git add Sources/SDK/Bundle/
-    git commit -m "Updated package library version"
-    git push
-  displayName: 'Commit and push the updated package'
