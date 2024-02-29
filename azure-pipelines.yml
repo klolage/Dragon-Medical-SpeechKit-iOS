@@ -9,6 +9,14 @@ trigger:
 pool:
   vmImage: windows-latest
 
+resources:
+ repositories:
+  - repository: iossdk_package
+    type: git
+    name: iossdk_package
+    # use a tag to have full change control
+    ref: refs/heads/feature/spm_xcframework_code_sign_verification
+
 steps:
 - checkout: self
   persistCredentials: true
@@ -19,4 +27,3 @@ steps:
     git checkout release/v5.7.1
     git pull
   displayName: 'Checkout release branch'
-
