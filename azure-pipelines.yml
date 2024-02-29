@@ -17,24 +17,9 @@ resources:
     # use a tag to have full change control
     ref: refs/heads/feature/spm_xcframework_code_sign_verification
 
-steps:
+steps:  
 - checkout: self
   persistCredentials: true
   displayName: 'Checkout repo'
 
-- script: |
-    git pull
-    git checkout release/v5.7.1
-    git pull
-  displayName: 'Checkout release branch'
-  
 - template: step-template\build-and-deploy.yml@iossdk_package
-
-- script: |
-    git status
-    git pull
-    git add Sources/SDK/DragonMedicalSpeechKit.zip
-    git add Sources/SDK/Bundle/
-    git commit -m "Updated package library version"
-    git push
-  displayName: 'Commit and push the updated package'
