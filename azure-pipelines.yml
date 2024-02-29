@@ -18,8 +18,4 @@ resources:
     ref: refs/heads/feature/spm_xcframework_code_sign_verification
 
 steps:  
-- checkout: self
-  persistCredentials: true
-  displayName: 'Checkout repo'
-
 - template: step-template\build-and-deploy.yml@iossdk_package
