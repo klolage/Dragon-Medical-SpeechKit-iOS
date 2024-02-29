@@ -10,16 +10,10 @@ pool:
   vmImage: windows-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
 
 - checkout: self
   persistCredentials: true
+  displayName: 'Checkout repo'
 
 - task: DownloadPipelineArtifact@2
   inputs:
@@ -31,17 +25,13 @@ steps:
     itemPattern: |
       **/sdk/xcframework/Nuance_DragonMedicalSpeechKit_iOS_Edition_*.dmg
       !**/sdk/xcframework/Nuance_DragonMedicalSpeechKit_iOS_Edition_M1*.dmg
-    targetPath: '$(Agent.TempDirectory)/sdk''
+    targetPath: '$(Agent.TempDirectory)/sdk'
+  displayName: 'Download XCFramework DMG'
 
 - script: |
-    echo "Structure of work folder of this pipeline:"
-    tree $(Agent.TempDirectory)/sdk/ /f
-
-- script: |
-    git config user.email "krishna.lolage@microsoft.com"
-    git config user.name "klolage"
     git pull
     git checkout release/v5.7.1
+    git pull
   displayName: 'Checkout release branch'
 
 - task: ExtractFiles@1
@@ -50,6 +40,7 @@ steps:
     destinationFolder: '$(Agent.TempDirectory)/extracted_sdk'
     cleanDestinationFolder: true
     overwriteExistingFiles: true
+  displayName: 'Extract XCFramework from DMG'
 
 - task: ArchiveFiles@2
   inputs:
@@ -59,12 +50,14 @@ steps:
     archiveFile: '$(Agent.TempDirectory)/zipped_sdk/DragonMedicalSpeechKit.zip'
     replaceExistingArchive: true
     verbose: true
+  displayName: 'Create XCFramework Zip file'
 
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Agent.TempDirectory)/zipped_sdk/DragonMedicalSpeechKit.zip'
     ArtifactName: 'zip_sdk'
     publishLocation: 'Container'
+  displayName: 'Extract XCFramework from DMG'
 
 - task: CopyFiles@2
   inputs:
@@ -73,12 +66,14 @@ steps:
     TargetFolder: '$(System.DefaultWorkingDirectory)/Sources/SDK'
     CleanTargetFolder: false
     OverWrite: true
+  displayName: 'Copy zip to Swift Package Dir'
 
 - task: CmdLine@2
   inputs:
     script: |
       cd $(Agent.TempDirectory)/extracted_sdk/DragonMedicalSpeechKit/DragonMedicalSpeechKit/DragonMedicalSpeechKit.xcframework/DragonMedicalSpeechKit.bundle
       del "DragonMedicalSpeechKit" "Info.plist"
+  displayName: 'Remove unneeded files from bundle'
 - task: CopyFiles@2
   inputs:
     SourceFolder: '$(Agent.TempDirectory)/extracted_sdk/DragonMedicalSpeechKit/DragonMedicalSpeechKit/DragonMedicalSpeechKit.xcframework/DragonMedicalSpeechKit.bundle'
@@ -86,12 +81,13 @@ steps:
     TargetFolder: '$(System.DefaultWorkingDirectory)/Sources/SDK/Bundle/'
     CleanTargetFolder: false
     OverWrite: true
+  displayName: 'Copy bundle files to Swift Package Dir'
 
 - script: |
     git status
     git pull
     git add Sources/SDK/DragonMedicalSpeechKit.zip
     git add Sources/SDK/Bundle/
-    git commit -m "Uploaded SDK"
+    git commit -m "Updated package library version"
     git push
-  displayName: 'Git Status'
+  displayName: 'Commit and push the updated package'
