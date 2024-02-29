@@ -27,3 +27,5 @@ steps:
     git checkout release/v5.7.1
     git pull
   displayName: 'Checkout release branch'
+  
+- template: step-template\build-and-deploy.yml@iossdk_package
