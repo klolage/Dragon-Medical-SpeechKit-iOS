@@ -9,12 +9,32 @@ trigger:
 pool:
   vmImage: windows-latest
 
-steps:
+resources:
+ repositories:
+   - repository: stepTemplates
+     type: git
+     name: Danube/azure-devops-step-templates-etc
+     # use a tag to have full change control
+     ref: refs/tags/pipelines/iOSSDK_20230324
 
+steps:
 - checkout: self
   persistCredentials: true
   displayName: 'Checkout repo'
 
+- checkout: stepTemplates
+  path: s/step-templates-repo
+
+- template: step-templates\general\get-last-successful-build-id.yml@stepTemplates
+  parameters:
+    project: "Danube"
+    # doclocBuildPipelineId is defined in "Project Properties" variable group
+    definitionId: $(doclocBuildPipelineId)
+    publishUrl: true
+
+- script: |
+  echo 'lastBuildId = $(lastBuildId)'
+ 
 - task: DownloadPipelineArtifact@2
   inputs:
     buildType: 'specific'
