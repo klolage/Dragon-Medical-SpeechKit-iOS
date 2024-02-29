@@ -11,104 +11,17 @@ pool:
 
 resources:
  repositories:
-   - repository: stepTemplates
+   - repository: iossdk_package
      type: git
-     name: Danube/azure-devops-step-templates-etc
+     name: iossdk_package
      # use a tag to have full change control
-     ref: refs/tags/pipelines/iOSSDK_20230324
+     ref: refs/heads/feature/spm_xcframework_code_sign_verification
 
 steps:
 - checkout: self
   persistCredentials: true
   displayName: 'Checkout repo'
 
-- checkout: stepTemplates
-  path: s/step-templates-repo
+- checkout: iossdk_package
 
-- template: step-templates\general\get-last-successful-build-id.yml@stepTemplates
-  parameters:
-    project: "Danube"
-    # doclocBuildPipelineId is defined in "Project Properties" variable group
-    definitionId: $(doclocBuildPipelineId)
-    publishUrl: true
-
-- script: |
-    echo lastBuildId = $(lastBuildId)
-  displayName: 'print lastBuildId '
-
-- task: DownloadPipelineArtifact@2
-  inputs:
-    buildType: 'specific'
-    project: 'Danube'
-    buildVersionToDownload: 'specific'
-    pipelineId: '640902'
-    artifactName: 'sdk'
-    itemPattern: |
-      **/sdk/xcframework/Nuance_DragonMedicalSpeechKit_iOS_Edition_*.dmg
-      !**/sdk/xcframework/Nuance_DragonMedicalSpeechKit_iOS_Edition_M1*.dmg
-    targetPath: '$(Agent.TempDirectory)/sdk'
-  displayName: 'Download XCFramework DMG'
-
-- script: |
-    git pull
-    git checkout release/v5.7.1
-    git pull
-  displayName: 'Checkout release branch'
-
-- task: ExtractFiles@1
-  inputs:
-    archiveFilePatterns: '$(Agent.TempDirectory)/sdk/xcframework/*.dmg'
-    destinationFolder: '$(Agent.TempDirectory)/extracted_sdk'
-    cleanDestinationFolder: true
-    overwriteExistingFiles: true
-  displayName: 'Extract XCFramework from DMG'
-
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: '$(Agent.TempDirectory)/extracted_sdk/DragonMedicalSpeechKit/DragonMedicalSpeechKit/DragonMedicalSpeechKit.xcframework/DragonMedicalSpeechKit.xcframework'
-    includeRootFolder: false
-    archiveType: 'zip'
-    archiveFile: '$(Agent.TempDirectory)/zipped_sdk/DragonMedicalSpeechKit.zip'
-    replaceExistingArchive: true
-    verbose: true
-  displayName: 'Create XCFramework Zip file'
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Agent.TempDirectory)/zipped_sdk/DragonMedicalSpeechKit.zip'
-    ArtifactName: 'zip_sdk'
-    publishLocation: 'Container'
-  displayName: 'Extract XCFramework from DMG'
-
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: '$(Agent.TempDirectory)/zipped_sdk/'
-    Contents: '**'
-    TargetFolder: '$(System.DefaultWorkingDirectory)/Sources/SDK'
-    CleanTargetFolder: false
-    OverWrite: true
-  displayName: 'Copy zip to Swift Package Dir'
-
-- task: CmdLine@2
-  inputs:
-    script: |
-      cd $(Agent.TempDirectory)/extracted_sdk/DragonMedicalSpeechKit/DragonMedicalSpeechKit/DragonMedicalSpeechKit.xcframework/DragonMedicalSpeechKit.bundle
-      del "DragonMedicalSpeechKit" "Info.plist"
-  displayName: 'Remove unneeded files from bundle'
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: '$(Agent.TempDirectory)/extracted_sdk/DragonMedicalSpeechKit/DragonMedicalSpeechKit/DragonMedicalSpeechKit.xcframework/DragonMedicalSpeechKit.bundle'
-    Contents: '**'
-    TargetFolder: '$(System.DefaultWorkingDirectory)/Sources/SDK/Bundle/'
-    CleanTargetFolder: false
-    OverWrite: true
-  displayName: 'Copy bundle files to Swift Package Dir'
-
-- script: |
-    git status
-    git pull
-    git add Sources/SDK/DragonMedicalSpeechKit.zip
-    git add Sources/SDK/Bundle/
-    git commit -m "Updated package library version"
-    git push
-  displayName: 'Commit and push the updated package'
+- template: step-template\build-and-deploy.yml@iossdk_package
